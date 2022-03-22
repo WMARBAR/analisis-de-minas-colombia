@@ -22,3 +22,8 @@ def get_Incidentes(var1):
         return 1
     else:
         return 0
+
+#ARREGLOS BINARIOS
+df_minas['Conteo_Eventos']=1
+df_minas['#ACCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Accidentes(x))
+df_minas['#INCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Incidentes(x))
