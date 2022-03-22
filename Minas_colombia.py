@@ -27,3 +27,7 @@ def get_Incidentes(var1):
 df_minas['Conteo_Eventos']=1
 df_minas['#ACCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Accidentes(x))
 df_minas['#INCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Incidentes(x))
+
+#ARREGLO DE FECHAS
+df_minas['Fecha del evento'] = pd.to_datetime(df_minas['Fecha del evento'] )
+df_minas['Year'] = df_minas['Fecha del evento'].dt.year
