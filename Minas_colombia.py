@@ -8,7 +8,7 @@ df_minas = pd.read_excel("D:/WILSON MARTINEZ/programas/python/Analisis_Minas/Bas
 
 #Agregando la informacion del calendario
 df_GLOBAL_CALENDAR = pd.read_excel("D:/WILSON MARTINEZ/programas/python/CALENDAR_GLOBAL.xlsx",sheet_name="Calendar")
-df_GLOBAL_CALENDAR= df_GLOBAL_CALENDAR.rename(columns={'date':'row_date'})
+df_GLOBAL_CALENDAR= df_GLOBAL_CALENDAR.rename(columns={'date':'Fecha del evento'})
 
 #Arreglo de caracteres con espacio el la columna "presunto actor responsable"
 df_minas['Presunto actor responsable']=df_minas['Presunto actor responsable'].str.strip(' ')
@@ -37,6 +37,9 @@ df_minas['#INCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Incidentes(x))
 df_minas['Fecha del evento'] = pd.to_datetime(df_minas['Fecha del evento'] )
 df_minas['Year'] = df_minas['Fecha del evento'].dt.year
 
+#AÑADIENDO LAS COLUMNAS DEL CALENDARIO
+Df_AHT_Historico=pd.merge(df_minas,df_GLOBAL_CALENDAR,on='Fecha del evento',how='left')
+
 #TOTALIZACION DE DATOS POR AÑOS:
 df_pivot_YEAR=df_minas.pivot_table(index= 'Year',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
 df_pivot_YEAR["P_Accidentes"] = df_pivot_YEAR['#ACCIDENTES']/df_pivot_YEAR['Conteo_Eventos'] 
@@ -48,5 +51,6 @@ df_pivot_DATES=df_minas.pivot_table(index= 'Fecha del evento',values=['Conteo_Ev
 df_pivot_DATES["P_Accidentes"] = df_pivot_DATES['#ACCIDENTES']/df_pivot_DATES['Conteo_Eventos'] 
 df_pivot_DATES["P_Incidentes"] = df_pivot_DATES['#INCIDENTES']/df_pivot_DATES['Conteo_Eventos'] 
 df_pivot_DATES=df_pivot_DATES.reset_index()
+
 
 
