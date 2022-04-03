@@ -38,19 +38,23 @@ df_minas['Fecha del evento'] = pd.to_datetime(df_minas['Fecha del evento'] )
 df_minas['Year'] = df_minas['Fecha del evento'].dt.year
 
 #AÑADIENDO LAS COLUMNAS DEL CALENDARIO
-Df_AHT_Historico=pd.merge(df_minas,df_GLOBAL_CALENDAR,on='Fecha del evento',how='left')
+df_minas=pd.merge(df_minas,df_GLOBAL_CALENDAR,on='Fecha del evento',how='left')
 
 #TOTALIZACION DE DATOS POR AÑOS:
-df_pivot_YEAR=df_minas.pivot_table(index= 'Year',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
-df_pivot_YEAR["P_Accidentes"] = df_pivot_YEAR['#ACCIDENTES']/df_pivot_YEAR['Conteo_Eventos'] 
-df_pivot_YEAR["P_Incidentes"] = df_pivot_YEAR['#INCIDENTES']/df_pivot_YEAR['Conteo_Eventos'] 
-df_pivot_YEAR=df_pivot_YEAR.reset_index()
+df_minas_pivot_YEAR=df_minas.pivot_table(index= 'Year',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
+df_minas_pivot_YEAR["P_Accidentes"] = df_minas_pivot_YEAR['#ACCIDENTES']/df_minas_pivot_YEAR['Conteo_Eventos'] 
+df_minas_pivot_YEAR["P_Incidentes"] = df_minas_pivot_YEAR['#INCIDENTES']/df_minas_pivot_YEAR['Conteo_Eventos'] 
+df_minas_pivot_YEAR=df_minas_pivot_YEAR.reset_index()
 
 #TOTALIZACION DE DATOS POR FECHAS:
-df_pivot_DATES=df_minas.pivot_table(index= 'Fecha del evento',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
-df_pivot_DATES["P_Accidentes"] = df_pivot_DATES['#ACCIDENTES']/df_pivot_DATES['Conteo_Eventos'] 
-df_pivot_DATES["P_Incidentes"] = df_pivot_DATES['#INCIDENTES']/df_pivot_DATES['Conteo_Eventos'] 
-df_pivot_DATES=df_pivot_DATES.reset_index()
+df_minas_pivot_DATES=df_minas.pivot_table(index= 'Fecha del evento',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
+df_minas_pivot_DATES["P_Accidentes"] = df_minas_pivot_DATES['#ACCIDENTES']/df_minas_pivot_DATES['Conteo_Eventos'] 
+df_minas_pivot_DATES["P_Incidentes"] = df_minas_pivot_DATES['#INCIDENTES']/df_minas_pivot_DATES['Conteo_Eventos'] 
+df_minas_pivot_DATES=df_minas_pivot_DATES.reset_index()
 
-
-
+#TOTALIZACION DE DATOS POR SEMANAS:
+df_minas_pivot_WEEKS=df_minas.pivot_table(index= 'WEEKS',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
+df_minas_pivot_WEEKS["P_Accidentes"] = df_minas_pivot_WEEKS['#ACCIDENTES']/df_minas_pivot_WEEKS['Conteo_Eventos'] 
+df_minas_pivot_WEEKS["P_Incidentes"] = df_minas_pivot_WEEKS['#INCIDENTES']/df_minas_pivot_WEEKS['Conteo_Eventos'] 
+df_minas_pivot_WEEKS=df_minas_pivot_WEEKS.reset_index()
+print(df_minas_pivot_WEEKS)
