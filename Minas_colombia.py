@@ -46,15 +46,25 @@ df_minas_pivot_YEAR["P_Accidentes"] = df_minas_pivot_YEAR['#ACCIDENTES']/df_mina
 df_minas_pivot_YEAR["P_Incidentes"] = df_minas_pivot_YEAR['#INCIDENTES']/df_minas_pivot_YEAR['Conteo_Eventos'] 
 df_minas_pivot_YEAR=df_minas_pivot_YEAR.reset_index()
 
+df_minas_pivot_YEAR.to_excel(r"D:/WILSON MARTINEZ/programas/Proyectos GIT/Proyecto_minas_python/Bases_de_datos/Minas_por_año.xlsx",
+                                          sheet_name='Minas_anual', encoding = 'utf-8', index = True)
+
 #TOTALIZACION DE DATOS POR FECHAS:
 df_minas_pivot_DATES=df_minas.pivot_table(index= 'Fecha del evento',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
 df_minas_pivot_DATES["P_Accidentes"] = df_minas_pivot_DATES['#ACCIDENTES']/df_minas_pivot_DATES['Conteo_Eventos'] 
 df_minas_pivot_DATES["P_Incidentes"] = df_minas_pivot_DATES['#INCIDENTES']/df_minas_pivot_DATES['Conteo_Eventos'] 
 df_minas_pivot_DATES=df_minas_pivot_DATES.reset_index()
 
+df_minas_pivot_DATES.to_excel(r"D:/WILSON MARTINEZ/programas/Proyectos GIT/Proyecto_minas_python/Bases_de_datos/Minas_por_dias.xlsx",
+                                          sheet_name='Minas_diario', encoding = 'utf-8', index = True)
+
 #TOTALIZACION DE DATOS POR SEMANAS:
 df_minas_pivot_WEEKS=df_minas.pivot_table(index= 'WEEKS',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
 df_minas_pivot_WEEKS["P_Accidentes"] = df_minas_pivot_WEEKS['#ACCIDENTES']/df_minas_pivot_WEEKS['Conteo_Eventos'] 
 df_minas_pivot_WEEKS["P_Incidentes"] = df_minas_pivot_WEEKS['#INCIDENTES']/df_minas_pivot_WEEKS['Conteo_Eventos'] 
 df_minas_pivot_WEEKS=df_minas_pivot_WEEKS.reset_index()
+df_minas_pivot_WEEKS.to_excel(r"D:/WILSON MARTINEZ/programas/Proyectos GIT/Proyecto_minas_python/Bases_de_datos/Minas_por_semanas.xlsx",
+                                          sheet_name='Minas_semanal', encoding = 'utf-8', index = True)
+
+
 print(df_minas_pivot_WEEKS)
