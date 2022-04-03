@@ -1,14 +1,17 @@
 import pandas as pd
-import datetime
 import matplotlib.pyplot as plt
 import numpy as np
+from datetime import datetime as dt
 
 #Agregar base de datos de minas del gobierno de colombia
 df_minas = pd.read_excel("D:/WILSON MARTINEZ/programas/python/Analisis_Minas/Base_minas_colombia_analisis.xlsx",sheet_name="Evento_minas_RAW")
 
 #Agregando la informacion del calendario
 df_GLOBAL_CALENDAR = pd.read_excel("D:/WILSON MARTINEZ/programas/python/CALENDAR_GLOBAL.xlsx",sheet_name="Calendar")
-df_GLOBAL_CALENDAR= df_GLOBAL_CALENDAR.rename(columns={'date':'Fecha del evento'})
+df_GLOBAL_CALENDAR['date'] = pd.to_datetime(df_GLOBAL_CALENDAR['date'] )
+df_GLOBAL_CALENDAR['date_g']=df_GLOBAL_CALENDAR['date'].dt.strftime("%d/%m/%Y")
+df_minas.to_excel(r"D:/WILSON MARTINEZ/programas/Proyectos GIT/Proyecto_minas_python/Bases_de_datos/Full_Minas.xlsx",
+                                          sheet_name='Minas_full', encoding = 'utf-8', index = True)
 
 #Arreglo de caracteres con espacio el la columna "presunto actor responsable"
 df_minas['Presunto actor responsable']=df_minas['Presunto actor responsable'].str.strip(' ')
@@ -35,10 +38,13 @@ df_minas['#INCIDENTES'] = df_minas['Eventos'].apply(lambda x: get_Incidentes(x))
 
 #ARREGLO DE FECHAS
 df_minas['Fecha del evento'] = pd.to_datetime(df_minas['Fecha del evento'] )
+df_minas['date_g']=df_minas['Fecha del evento'].dt.strftime("%d/%m/%Y")
 df_minas['Year'] = df_minas['Fecha del evento'].dt.year
 
 #AÑADIENDO LAS COLUMNAS DEL CALENDARIO
-df_minas=pd.merge(df_minas,df_GLOBAL_CALENDAR,on='Fecha del evento',how='left')
+df_minas=pd.merge(df_minas,df_GLOBAL_CALENDAR,on='date_g',how='left')
+df_minas.to_excel(r"D:/WILSON MARTINEZ/programas/Proyectos GIT/Proyecto_minas_python/Bases_de_datos/Full_Minas.xlsx",
+                                          sheet_name='Minas_full', encoding = 'utf-8', index = True)
 
 #TOTALIZACION DE DATOS POR AÑOS:
 df_minas_pivot_YEAR=df_minas.pivot_table(index= 'Year',values=['Conteo_Eventos','#ACCIDENTES','#INCIDENTES'],aggfunc='sum')
@@ -71,6 +77,17 @@ print(df_minas_pivot_WEEKS)
 
 
 #---------------Graficos-------------------------------------------------------------
+#Accidentes de minas
+fig = plt.figure(figsize=(8,3))
+ax=fig.add_subplot()
+ax.set_title('Accidentes de minas semanales', fontsize=10, fontweight ="bold")
+ax.plot(df_minas_pivot_WEEKS["WEEKS"],df_minas_pivot_WEEKS["#ACCIDENTES"], linewidth=2,color='red',marker='o',label='Incidentes totales')
+ax.legend(loc='upper left',fontsize=10)
+ax.tick_params(axis="y",labelsize=10,colors='black')
+ax.tick_params(axis="x",labelsize=10,colors='black')
+plt.grid(None)
+plt.show()
+
 #Incidentes de minas
 fig = plt.figure(figsize=(8,3))
 ax=fig.add_subplot()
@@ -81,4 +98,3 @@ ax.tick_params(axis="y",labelsize=10,colors='black')
 ax.tick_params(axis="x",labelsize=10,colors='black')
 plt.grid(None)
 plt.show()
-
