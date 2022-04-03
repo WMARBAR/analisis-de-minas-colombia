@@ -59,17 +59,16 @@ df_minas_pivot_WEEKS["P_Incidentes"] = df_minas_pivot_WEEKS['#INCIDENTES']/df_mi
 df_minas_pivot_WEEKS=df_minas_pivot_WEEKS.reset_index()
 print(df_minas_pivot_WEEKS)
 
-#primeras graficas de tendencia.
+
+#---------------Graficos-------------------------------------------------------------
+#Incidentes de minas
 fig = plt.figure(figsize=(8,3))
 ax=fig.add_subplot()
-ax.set_title('Accidentes e incidentes de minas semanales', fontsize=10, fontweight ="bold")
-
-ax.plot(df_minas_pivot_WEEKS["WEEKS"],df_minas_pivot_WEEKS["P_Incidentes"], linewidth=2,color='red',marker='o',label='Porcentaje accidentes')
-
+ax.set_title('incidentes de minas semanales', fontsize=10, fontweight ="bold")
+ax.plot(df_minas_pivot_WEEKS["WEEKS"],df_minas_pivot_WEEKS["#INCIDENTES"], linewidth=2,color='red',marker='o',label='Incidentes totales')
 ax.legend(loc='upper left',fontsize=10)
 ax.tick_params(axis="y",labelsize=10,colors='black')
 ax.tick_params(axis="x",labelsize=10,colors='black')
-
 plt.grid(None)
 plt.show()
 
